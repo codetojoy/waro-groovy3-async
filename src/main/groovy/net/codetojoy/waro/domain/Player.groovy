@@ -1,8 +1,11 @@
 
 package net.codetojoy.waro.domain
 
+import groovy.transform.NullCheck
+
 import net.codetojoy.waro.strategy.*
 
+@NullCheck
 class Player {
     final String name
     final Strategy strategy

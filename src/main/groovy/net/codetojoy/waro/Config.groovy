@@ -1,8 +1,11 @@
 
 package net.codetojoy.waro
 
+import groovy.transform.NullCheck
+
 import net.codetojoy.waro.domain.Player
 
+@NullCheck
 class Config {
     final List<Player> players
     final int numGames
@@ -40,7 +43,5 @@ class Config {
             System.err.println "ex ${ex.class} : ${ex.message}"
             System.exit(-1)
         }
-
     }
 }
-
