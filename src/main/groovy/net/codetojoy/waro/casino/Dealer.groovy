@@ -2,11 +2,13 @@
 package net.codetojoy.waro.casino
 
 import net.codetojoy.waro.domain.*
+import net.codetojoy.waro.util.Logger
 import com.google.common.collect.Lists
 
 class Dealer {
 
     def verbose = true
+    def logger = new Logger(verbose)
 
     Table deal(int numCards, def players) {
         def numPlayers = players.size()
@@ -51,7 +53,7 @@ class Dealer {
         def winningBid = findRoundWinner(prizeCard, players)
         def winner = winningBid.player
 
-        if (verbose) { println "\nthis round: ${winner.name} WINS $prizeCard with ${winningBid.offer}" }
+        logger.log({ println "\nthis round: ${winner.name} WINS $prizeCard with ${winningBid.offer}" })
 
         winner.playerStats.numRoundsWon++
         winner.playerStats.total += prizeCard

@@ -2,19 +2,20 @@
 package net.codetojoy.waro.casino
 
 import net.codetojoy.waro.domain.*
+import net.codetojoy.waro.util.Logger
 
 class Game {
     def verbose = true
+    def logger = new Logger(verbose)
 
     def playGame(def numCards, def players) {
         def dealer = new Dealer()
 
         def table = dealer.deal(numCards, players)
 
-        if (verbose) {
-            // println "kitty: ${table.kitty.toString()}"
+        logger.log({
             table.players.each { p -> println "${p.name}: ${p.hand.toString()}" }
-        }
+        })
 
         dealer.play(table)
 
@@ -32,12 +33,12 @@ class Game {
         def winner = players.max { p -> p.playerStats.total }
         def max = winner.playerStats.total
 
-        if (verbose) {
+        logger.log({
             players.each { p ->
                 def stats = p.playerStats
                 println "$p.name won $stats.numRoundsWon rounds with $stats.total"
             }
-        }
+        })
 
         winner.playerStats.numGamesWon++
         println "\nGame summary:"
