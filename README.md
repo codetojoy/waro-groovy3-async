@@ -13,6 +13,12 @@ To run:
 gradle run
 ```
 
+Notes:
+
+* uses Groovy 3.0.8
+* Gradle wrapper 7.1
+* tested with JDK 16 (AdoptOpenJDK 16.0.1.j9-adpt)
+
 Rules:
 ---------
 
