@@ -77,12 +77,9 @@ class ApiRemote implements Strategy {
                .setParameter(PRIZE_CARD_PARAM, "" + prizeCard)
                .setParameter(MAX_CARD_PARAM, "" + maxCard)
 
-        List<String> cardsStrings = hand.stream()
-                                        // .boxed()
-                                        .map(c -> "" + c)
-                                        .collect(Collectors.toList())
+        def cardsStrings = hand.collect { c -> "" + c }
 
-        var cardsQueryValue = String.join(",", cardsStrings)
+        def cardsQueryValue = String.join(",", cardsStrings)
 
         builder.setParameter(CARDS_PARAM, cardsQueryValue)
 

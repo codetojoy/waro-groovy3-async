@@ -9,14 +9,12 @@ numGames = 10
 // Console (for interactive games)
 // HybridThirds
 
-/*
-*/
 String SCHEME = "http"
 String HOST = "localhost:8080"
 String PATH = "waro/strategy"
 String MODE = "max"
-// players << new Player('Alice Api', new ApiRemote(SCHEME, HOST, PATH, MODE))
 
+players << new Player('Alice Api', new ApiRemote(SCHEME, HOST, PATH, MODE))
 players << new Player('Michael Max', new MaxCard())
 players << new Player('Nelly Nearest', new NearestCard())
 players << new Player('Randy Random', new RandomCard())

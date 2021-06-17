@@ -42,4 +42,8 @@ class Player {
         hand = []
         playerStats.clear()
     }
+
+    StrategyExecutor getStrategy(int prizeCard) {
+        new StrategyExecutor(strategy, prizeCard, hand, maxCard, this)
+    }
 }

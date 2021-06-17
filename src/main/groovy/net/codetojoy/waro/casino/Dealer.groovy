@@ -1,8 +1,12 @@
 
 package net.codetojoy.waro.casino
 
+import java.util.function.Supplier
+
 import net.codetojoy.waro.domain.*
+import net.codetojoy.waro.domain.async.BidFetcher
 import net.codetojoy.waro.util.Logger
+
 import com.google.common.collect.Lists
 
 class Dealer {
@@ -63,10 +67,18 @@ class Dealer {
 
     // returns Expando with 'Player winner' and 'int winningBid'
     protected def findRoundWinner(def prizeCard, def players) {
-        def bids = players.collect { p -> p.getBid(prizeCard) }
+        def bids = getAllBids(prizeCard, players)
         def winningBid = bids.max { b -> b.offer }
 
         return winningBid
+    }
+
+    protected def getAllBids(def prizeCard, def players) {
+        List<Supplier<Bid>> tasks = players.collect(p -> p.getStrategy(prizeCard))
+
+        def bidFetcher = new BidFetcher()
+        def bids = bidFetcher.fetchBids(tasks)
+        bids
     }
 
     protected def newDeck(def numCards) {
