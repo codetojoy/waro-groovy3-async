@@ -17,36 +17,24 @@ class DealerTestCase extends GroovyTestCase {
         players << new Player('Doyle B', strategy, numCards)
     }
 
-    void testPlayRound_Default() {
-        def prizeCard = 42
-
-        players[0].hand = [10,11,12]
-        players[1].hand = [15,16,17]
-        players[2].hand = [58,50,49]
-
-        // test
-        def winner = dealer.playRound(prizeCard, players)
-
-        assert 'Doyle B' == winner.name
-        assert 1 == winner.playerStats.numRoundsWon
-        assert prizeCard == winner.playerStats.total
-    }
-
     void testPlay_Default() {
-        def kitty = [35,25,55]
+        def kitty = [1,2,3]
+        def numCards = 12
 
-        players[0].hand = [10,11,52]
-        players[1].hand = [15,16,17]
-        players[2].hand = [58,50,49]
+        players[0].hand = [4,9,10]
+        players[1].hand = [5,8,12]
+        players[2].hand = [6,7,11]
 
-        def table = new Table(players, kitty)
+        def table = new Table(players, kitty, numCards)
 
         // test
         def winner = dealer.play(table)
 
-        assert 0 == table.players[0].hand.size()
-        assert 0 == table.players[1].hand.size()
-        assert 0 == table.players[2].hand.size()
+        table.players.each { assert it.hand.isEmpty() }
+        assert 2 == players[0].playerStats.total
+        assert 3 == players[1].playerStats.total
+        assert 1 == players[2].playerStats.total
+        table.players.each { assert 1 == it.playerStats.numRoundsWon }
     }
 
     void testNewDeckSize() {

@@ -1,6 +1,6 @@
 
 numCards = 40
-numGames = 10
+numGames = 100
 
 // Player requires: name, strategy
 //

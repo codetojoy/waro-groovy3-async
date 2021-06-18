@@ -25,14 +25,14 @@ class Dealer {
             players[index - 1].hand = hands[index]
         }
 
-        Table table = new Table(players, kitty)
+        Table table = new Table(players, kitty, numCards)
 
         return table
     }
 
     void play(Table table) {
         table.kitty.each { prizeCard ->
-            playRound(prizeCard, table.players)
+            playRound(prizeCard, table)
         }
     }
 
@@ -53,8 +53,8 @@ class Dealer {
         return hands
     }
 
-    protected def playRound(def prizeCard, def players) {
-        def winningBid = findRoundWinner(prizeCard, players)
+    protected def playRound(def prizeCard, def table) {
+        def winningBid = findRoundWinner(prizeCard, table)
         def winner = winningBid.player
 
         logger.log({ println "\nthis round: ${winner.name} WINS $prizeCard with ${winningBid.offer}" })
@@ -62,13 +62,19 @@ class Dealer {
         winner.playerStats.numRoundsWon++
         winner.playerStats.total += prizeCard
 
+        table.assertAudit()
+
         winner
     }
 
     // returns Expando with 'Player winner' and 'int winningBid'
-    protected def findRoundWinner(def prizeCard, def players) {
-        def bids = getAllBids(prizeCard, players)
-        bids.each { bid -> bid.player.applyBid(bid.offer) }
+    protected def findRoundWinner(def prizeCard, def table) {
+        def bids = getAllBids(prizeCard, table.players)
+        bids.each { bid ->
+            def offer = bid.offer
+            bid.player.applyBid(offer)
+            table.discard(offer)
+        }
         def winningBid = bids.max { b -> b.offer }
 
         return winningBid
