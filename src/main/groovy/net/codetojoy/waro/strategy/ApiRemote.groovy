@@ -2,15 +2,10 @@ package net.codetojoy.waro.strategy
 
 import net.codetojoy.waro.strategy.api.*
 
-import java.net.URI
-
-// import com.fasterxml.jackson.databind.ObjectMapper
-
 import org.apache.http.HttpEntity
 import org.apache.http.HttpHeaders
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpGet
-// import org.apache.http.client.utils.URIBuilder
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.util.EntityUtils
@@ -19,7 +14,6 @@ import groovy.transform.NullCheck
 
 @NullCheck
 class ApiRemote implements Strategy {
-
     def apiURI
 
     public ApiRemote(String scheme, String host, String path, String mode) {
@@ -41,6 +35,11 @@ class ApiRemote implements Strategy {
         return bid
     }
 
+    protected int getCard(String remoteResult) {
+        ApiResult apiResult = new ApiResults().fromJson(remoteResult)
+        apiResult.card
+    }
+
     private int apiRemoteSelectCard(int prizeCard, List<Integer> hand, int maxCard) throws Exception {
         var card = 0
         var uri = apiURI.buildURI(prizeCard, hand, maxCard)
@@ -54,34 +53,11 @@ class ApiRemote implements Strategy {
             if (entity != null) {
                 String resultStr = EntityUtils.toString(entity)
                 System.out.println("TRACER api remote: " + resultStr)
-                ApiResult apiResult = new ApiResults().fromJson(resultStr)
-                card = apiResult.getCard()
+                card = getCard(resultStr)
             }
         }
 
         return card
     }
 
-/*
-    private URI buildURI(int prizeCard, List<Integer> hand, int maxCard) throws Exception {
-        URIBuilder builder = new URIBuilder()
-
-        builder.setScheme(scheme)
-               .setHost(host)
-               .setPath(path)
-               .setParameter(MODE_PARAM, mode)
-               .setParameter(PRIZE_CARD_PARAM, "" + prizeCard)
-               .setParameter(MAX_CARD_PARAM, "" + maxCard)
-
-        def cardsStrings = hand.collect { c -> "" + c }
-
-        def cardsQueryValue = String.join(",", cardsStrings)
-
-        builder.setParameter(CARDS_PARAM, cardsQueryValue)
-
-        URI uri = builder.build()
-
-        return uri
-    }
-    */
 }
