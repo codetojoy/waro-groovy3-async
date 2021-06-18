@@ -8,8 +8,8 @@ class Game {
     def verbose = true
     def logger = new Logger(verbose)
 
-    def playGame(def numCards, def players) {
-        def dealer = new Dealer()
+    def playGame(def numCards, def players, def deckProvider) {
+        def dealer = new Dealer(deckProvider)
 
         def table = dealer.deal(numCards, players)
 

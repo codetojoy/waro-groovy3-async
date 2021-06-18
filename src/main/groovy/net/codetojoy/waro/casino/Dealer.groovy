@@ -10,9 +10,13 @@ import net.codetojoy.waro.util.Logger
 import com.google.common.collect.Lists
 
 class Dealer {
-
     def verbose = true
     def logger = new Logger(verbose)
+    def deckProvider
+
+    Dealer(DeckProvider deckProvider) {
+        this.deckProvider = deckProvider
+    }
 
     Table deal(int numCards, def players) {
         def numPlayers = players.size()
@@ -41,7 +45,7 @@ class Dealer {
     protected def dealHands(int numCards, int numPlayers) {
         def hands = []
 
-        def deck = newDeck(numCards)
+        def deck = deckProvider.newDeck()
         def numCardsInHand = getNumCardsInHand(numCards, numPlayers)
 
         Lists.partition(deck, numCardsInHand).each { unmodifiableHand ->
@@ -86,16 +90,6 @@ class Dealer {
         def bidFetcher = new BidFetcher()
         def bids = bidFetcher.fetchBids(tasks)
         bids
-    }
-
-    protected def newDeck(def numCards) {
-        def deck = []
-
-        (1..numCards).each { deck << it }
-
-        deck.shuffle()
-
-        return deck
     }
 
     protected def getNumCardsInHand(def numCards, def numPlayers) {

@@ -6,7 +6,7 @@ import net.codetojoy.waro.strategy.*
 
 class DealerTestCase extends GroovyTestCase {
     def numCards = 60
-    def dealer = new Dealer()
+    def dealer = new Dealer(new DeckProvider(numCards))
 
     def players = []
 
@@ -35,37 +35,6 @@ class DealerTestCase extends GroovyTestCase {
         assert 3 == players[1].playerStats.total
         assert 1 == players[2].playerStats.total
         table.players.each { assert 1 == it.playerStats.numRoundsWon }
-    }
-
-    void testNewDeckSize() {
-        // test
-	    def deck = dealer.newDeck(numCards)
-
-	    assert numCards == deck.size()
-	}
-
-    void testNewDeckComplete() {
-        // test
-	    def deck = dealer.newDeck(numCards)
-
-	    def uniques = new HashSet()
-	    deck.each { uniques << it }
-	    assert numCards == uniques.size()
-	}
-
-    void testNewDeckShuffled() {
-        // test
-	    def deck = dealer.newDeck(numCards)
-
-        def numMatches = 0
-        (1..numCards).each { i ->
-            if (i == deck[i-1]) {
-                numMatches++
-            }
-        }
-        // if more than 50% of cards remain in original slot, something is weird
-        def maxMatches = (numCards / 2) as int
-        assert numMatches < maxMatches
     }
 
 	void testGetNumCardsInHand() {
