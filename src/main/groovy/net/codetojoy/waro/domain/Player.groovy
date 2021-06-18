@@ -24,18 +24,9 @@ class Player {
         this.maxCard = maxCard
     }
 
-    Bid getBid(int prizeCard) {
-        assert maxCard
-
-        def unmodifiableHand = Collections.unmodifiableList(hand)
-        def offer = strategy.selectCard(prizeCard, unmodifiableHand, maxCard)
-
-        def bid = new Bid(offer, this)
-        assert hand.contains(bid.offer)
-
-        hand.remove(bid.offer as Object)
-
-        return bid
+    void applyBid(int card) {
+        assert hand.contains(card)
+        hand.remove(card as Object)
     }
 
     void clear() {

@@ -68,6 +68,7 @@ class Dealer {
     // returns Expando with 'Player winner' and 'int winningBid'
     protected def findRoundWinner(def prizeCard, def players) {
         def bids = getAllBids(prizeCard, players)
+        bids.each { bid -> bid.player.applyBid(bid.offer) }
         def winningBid = bids.max { b -> b.offer }
 
         return winningBid

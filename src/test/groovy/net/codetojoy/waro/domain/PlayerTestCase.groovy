@@ -8,14 +8,13 @@ class PlayerTestCase extends GroovyTestCase {
     def strategy = new PopCard()
     def player = new Player('Peterborough Pete', strategy, 60)
 
-    void testGetBid() {
+    void testApplyBid() {
         player.hand = [10,20,30]
-        
+        def bid = new Bid(20, player)
+
         // test
-        def bid = player.getBid(9)
-        
-        assert 10 == bid.offer
-        assert player == bid.player
+        player.applyBid(bid.offer)
+
         assert 2 == player.hand.size()
-    }    
+    }
 }
