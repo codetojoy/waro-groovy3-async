@@ -1,9 +1,10 @@
 
 package net.codetojoy.waro.strategy
 
+import groovy.transform.NullCheck
+
 // TODO: abstract this to work with N strategies
 // a compound approach, switching algorithms based on the card value
-import groovy.transform.NullCheck
 
 @NullCheck
 class HybridThirds implements Strategy {
