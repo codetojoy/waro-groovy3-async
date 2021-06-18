@@ -14,7 +14,7 @@ class StrategyExecutor implements Supplier<Bid> {
     private final int maxCard
     private final Player bidder
 
-    public StrategyExecutor(Strategy strategy, int prizeCard, List<Integer> hand, int maxCard, Player player) {
+    StrategyExecutor(Strategy strategy, int prizeCard, List<Integer> hand, int maxCard, Player player) {
         this.strategy = strategy
         this.prizeCard = prizeCard
         this.hand = hand
@@ -23,7 +23,7 @@ class StrategyExecutor implements Supplier<Bid> {
     }
 
     @Override
-    public Bid get() {
+    Bid get() {
         int offer = strategy.selectCard(prizeCard, hand, maxCard)
         new Bid(offer, bidder)
     }

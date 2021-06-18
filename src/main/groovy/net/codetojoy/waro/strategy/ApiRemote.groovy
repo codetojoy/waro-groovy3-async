@@ -1,14 +1,16 @@
 package net.codetojoy.waro.strategy
 
+import net.codetojoy.waro.strategy.api.*
+
 import java.net.URI
 
-import com.fasterxml.jackson.databind.ObjectMapper
+// import com.fasterxml.jackson.databind.ObjectMapper
 
 import org.apache.http.HttpEntity
 import org.apache.http.HttpHeaders
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpGet
-import org.apache.http.client.utils.URIBuilder
+// import org.apache.http.client.utils.URIBuilder
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.util.EntityUtils
@@ -17,21 +19,11 @@ import groovy.transform.NullCheck
 
 @NullCheck
 class ApiRemote implements Strategy {
-    private static final String CARDS_PARAM = "cards"
-    private static final String MODE_PARAM = "mode"
-    private static final String PRIZE_CARD_PARAM = "prize_card"
-    private static final String MAX_CARD_PARAM = "max_card"
 
-    private String scheme
-    private String host
-    private String path
-    private String mode
+    def apiURI
 
     public ApiRemote(String scheme, String host, String path, String mode) {
-        this.scheme = scheme
-        this.host = host
-        this.path = path
-        this.mode = mode
+        this.apiURI = new ApiURI(scheme, host, path, mode)
     }
 
     @Override
@@ -51,7 +43,7 @@ class ApiRemote implements Strategy {
 
     private int apiRemoteSelectCard(int prizeCard, List<Integer> hand, int maxCard) throws Exception {
         var card = 0
-        var uri = buildURI(prizeCard, hand, maxCard)
+        var uri = apiURI.buildURI(prizeCard, hand, maxCard)
 
         HttpGet request = new HttpGet(uri)
 
@@ -62,7 +54,7 @@ class ApiRemote implements Strategy {
             if (entity != null) {
                 String resultStr = EntityUtils.toString(entity)
                 System.out.println("TRACER api remote: " + resultStr)
-                ApiResult apiResult = buildResult(resultStr)
+                ApiResult apiResult = new ApiResults().fromJson(resultStr)
                 card = apiResult.getCard()
             }
         }
@@ -70,6 +62,7 @@ class ApiRemote implements Strategy {
         return card
     }
 
+/*
     private URI buildURI(int prizeCard, List<Integer> hand, int maxCard) throws Exception {
         URIBuilder builder = new URIBuilder()
 
@@ -90,19 +83,5 @@ class ApiRemote implements Strategy {
 
         return uri
     }
-
-    protected ApiResult buildResult(String str) throws Exception {
-        ObjectMapper mapper = new ObjectMapper()
-        ApiResult result = mapper.readValue(str, ApiResult.class)
-        return result
-    }
-}
-
-class ApiResult {
-    int card
-    String message
-
-    public String toString() {
-        return "card: " + card + " message: " + message
-    }
+    */
 }
