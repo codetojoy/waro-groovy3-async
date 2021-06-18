@@ -4,6 +4,9 @@ package net.codetojoy.waro.casino
 import net.codetojoy.waro.domain.*
 import net.codetojoy.waro.Config
 
+import groovy.transform.NullCheck
+
+@NullCheck
 class Tourney {
     final List<Player> players = []
     final int numGames

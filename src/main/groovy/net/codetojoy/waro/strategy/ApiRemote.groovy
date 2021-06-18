@@ -13,6 +13,9 @@ import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClients
 import org.apache.http.util.EntityUtils
 
+import groovy.transform.NullCheck
+
+@NullCheck
 class ApiRemote implements Strategy {
     private static final String CARDS_PARAM = "cards"
     private static final String MODE_PARAM = "mode"

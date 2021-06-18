@@ -7,6 +7,9 @@ import java.util.stream.*
 
 import net.codetojoy.waro.domain.Bid
 
+import groovy.transform.NullCheck
+
+@NullCheck
 class BidFetcher {
 
     protected List<Bid> internalFetchBids(List<Supplier<Bid>> tasks) throws Exception {

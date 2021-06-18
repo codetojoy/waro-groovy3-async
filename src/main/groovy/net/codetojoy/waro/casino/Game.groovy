@@ -4,6 +4,9 @@ package net.codetojoy.waro.casino
 import net.codetojoy.waro.domain.*
 import net.codetojoy.waro.util.Logger
 
+import groovy.transform.NullCheck
+
+@NullCheck
 class Game {
     def verbose = true
     def logger = new Logger(verbose)

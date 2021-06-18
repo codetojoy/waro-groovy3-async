@@ -1,5 +1,8 @@
 package net.codetojoy.waro.casino
 
+import groovy.transform.NullCheck
+
+@NullCheck
 class DeckProvider {
    def numCards
    DeckProvider() {}

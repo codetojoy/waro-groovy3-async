@@ -1,6 +1,9 @@
 
 package net.codetojoy.waro.util
 
+import groovy.transform.NullCheck
+
+@NullCheck
 class Logger {
     final boolean verbose
 
@@ -11,6 +14,6 @@ class Logger {
     def log(Closure c) {
         if (verbose) {
             c.call()
-	}
+        }
     }
 }

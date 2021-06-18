@@ -4,6 +4,9 @@ import java.util.function.Supplier
 
 import net.codetojoy.waro.domain.*
 
+import groovy.transform.NullCheck
+
+@NullCheck
 class StrategyExecutor implements Supplier<Bid> {
     private final Strategy strategy
     private final int prizeCard

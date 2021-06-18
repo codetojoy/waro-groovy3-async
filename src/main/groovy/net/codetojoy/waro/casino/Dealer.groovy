@@ -9,6 +9,9 @@ import net.codetojoy.waro.util.Logger
 
 import com.google.common.collect.Lists
 
+import groovy.transform.NullCheck
+
+@NullCheck
 class Dealer {
     def verbose = true
     def logger = new Logger(verbose)
